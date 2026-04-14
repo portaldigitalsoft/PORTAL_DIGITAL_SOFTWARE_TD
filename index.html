@@ -155,4 +155,46 @@ function cerrarQr(){
 var m=document.getElementById("qrModal");
 if(m)m.classList.remove("visible");
 }
-</script></body></html>
+</script>
+<div id="seccion_qr" style="text-align: center; margin: 25px auto; max-width: 370px; font-family: sans-serif;">
+    
+    <button onclick="generarQR()" style="background: none; border: 2px solid #D4AF37; color: #D4AF37; padding: 12px 25px; border-radius: 50px; cursor: pointer; font-weight: bold; font-size: 0.85rem; letter-spacing: 1px; transition: 0.3s; box-shadow: 0 0 10px rgba(212, 175, 55, 0.2);">
+        📲 COMPARTIR TARJETA (QR)
+    </button>
+
+    <div id="display_qr" style="display: none; margin-top: 20px; padding: 25px; background: linear-gradient(135deg, #1a1a1a, #000); border: 2px solid #D4AF37; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.8); position: relative;">
+        
+        <div style="position: absolute; top: -11px; left: 50%; transform: translateX(-50%); width: 0; height: 0; border-left: 10px solid transparent; border-right: 10px solid transparent; border-bottom: 10px solid #D4AF37;"></div>
+
+        <div id="qrcode" style="background: white; padding: 15px; border-radius: 12px; display: inline-block; line-height: 0;">
+            </div>
+        
+        <p style="color: #D4AF37; font-size: 0.75rem; margin: 15px 0 0 0; font-weight: 900; letter-spacing: 2px; text-transform: uppercase;">
+            Escaneame con la cámara
+        </p>
+    </div>
+</div>
+
+<script>
+function generarQR() {
+    const contenedor = document.getElementById('display_qr');
+    const qrDiv = document.getElementById('qrcode');
+    
+    // Toggle con corrección de error de visualización
+    if (contenedor.style.display === "block" || contenedor.style.display === "inline-block") {
+        contenedor.style.display = "none";
+    } else {
+        const urlActual = window.location.href;
+        // QR de 200x200 con margen de seguridad (chld=L|1)
+        const qrUrl = `https://chart.googleapis.com/chart?chs=200x200&cht=qr&chl=${encodeURIComponent(urlActual)}&choe=UTF-8&chld=L|1`;
+        
+        qrDiv.innerHTML = `<img src="${qrUrl}" alt="QR Code" style="display: block; width: 180px; height: 180px; border-radius: 4px;">`;
+        contenedor.style.display = "inline-block";
+        
+        // Scroll suave hacia el QR para que el usuario lo vea bien
+        contenedor.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+}
+</script>
+
+</body></html>
